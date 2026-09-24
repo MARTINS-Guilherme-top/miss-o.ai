@@ -25,46 +25,46 @@ const perguntas = [
       },
     ],
   },
-  { // <-- Este objeto agora está corretamente dentro do array
+  {
     enunciado: "Após a elaboração do trabalho, a professora realizou um debate entre a turma para entender como foi realizada a pesquisa e escrita. Nessa conversa também foi levantado um ponto muito importante: como a IA impacta o trabalho do futuro. Nesse debate, como você se posiciona?",
     alternativas: [
       {
         texto: "Me preocupo com as pessoas que perderão seus empregos para máquinas e defendem a importância de proteger os trabalhadores.",
-        afirmacao: "afirmacao"
+        afirmacao: ["Me preocupo com as pessoas que perderão seus empregos para máquinas e defendem a importância de proteger os trabalhadores."], // Corrigido aqui
       },
       {
         texto: "Defende a ideia de que a IA pode criar novas oportunidades de emprego e melhorar habilidades humanas.",
-        afirmacao: "afirmacao"
-      }
-    ]
+        afirmacao: ["Defende a ideia de que a IA pode criar novas oportunidades de emprego e melhorar habilidades humanas."], // Corrigido aqui
+      },
+    ],
   },
-  { // <-- Este objeto agora está corretamente dentro do array
+  {
     enunciado: "Ao final da discussão, você precisou criar uma imagem no computador que representasse o que pensa sobre IA. E agora?",
     alternativas: [
       {
         texto: "Criar uma imagem utilizando uma plataforma de design como o Paint.",
-        afirmacao: "afirmacao"
+        afirmacao: ["Criar uma imagem utilizando uma plataforma de design como o Paint."], // Corrigido aqui
       },
       {
         texto: "Criar uma imagem utilizando um gerador de imagem de IA.",
-        afirmacao: "afirmacao"
-      }
-    ]
+        afirmacao: ["Criar uma imagem utilizando um gerador de imagem de IA."], // Corrigido aqui
+      },
+    ],
   },
-  { // <-- Este objeto agora está corretamente dentro do array
+  {
     enunciado: " Você tem um trabalho em grupo de biologia para entregar na semana seguinte, o andamento do trabalho está um pouco atrasado e uma pessoa do seu grupo decidiu fazer com ajuda de uma IA. O problema é que o trabalho está totalmente igual ao do chat. O que você faz?",
     alternativas: [
       {
         texto: "O chat pode ser uma tecnologia muito avançada, mas é preciso manter a atenção pois toda máquina erra, por isso revisar o trabalho e contribuir com as perspectivas pessoais é essencial.",
-        afirmacao: "afirmacao"
+        afirmacao: ["O chat pode ser uma tecnologia muito avançada, mas é preciso manter a atenção pois toda máquina erra, por isso revisar o trabalho e contribuir com as perspectivas pessoais é essencial."], // Corrigido aqui
       },
       {
         texto: "Escrever comandos para o chat é uma forma de contribuir com o trabalho, por isso não é um problema utilizar o texto inteiro.",
-        afirmacao: "afirmacao"
-      }
-    ]
-  }
-]; // <-- O array é fechado corretamente aqui, após todas as perguntas.
+        afirmacao: ["Escrever comandos para o chat é uma forma de contribuir com o trabalho, por isso não é um problema utilizar o texto inteiro."], // Corrigido aqui
+      },
+    ],
+  },
+];
 
 let atual = 0;
 let perguntaAtual;
@@ -91,7 +91,8 @@ function mostraAlternativas(){
 }
 
 function respostaSelecionada(opcaoSelecionada){
-    const afirmacoes = opcaoSelecionada.afirmacao;
+    // A propriedade afirmacao agora é sempre um array, então precisamos concatenar seus elementos
+    const afirmacoes = opcaoSelecionada.afirmacao.join(" "); // Junta os elementos do array em uma string
     historiaFinal += afirmacoes + " ";
     atual++;
     mostraPergunta();
