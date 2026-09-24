@@ -90,14 +90,16 @@ function mostraAlternativas(){
     }
 }
 
-function respostaSelecionada(opcaoSelecionada){
-    // A propriedade afirmacao agora é sempre um array, então precisamos concatenar seus elementos
-    const afirmacoes = opcaoSelecionada.afirmacao.join(" "); // Junta os elementos do array em uma string
-    historiaFinal += afirmacoes + " ";
-    atual++;
-    mostraPergunta();
+function respostaSelecionada(opcaoSelecionada) {
+    const afirmacoes = aleatorio(opcaoSelecionada.afirmacao);
+historiaFinal += afirmacoes + “ “;
+atual++;
+mostraPergunta();
 }
-
+function aleatorio(lista) {
+const posicao = Math.floor(Math.random()* lista.length);
+return lista[posicao];
+}
 function mostraResultado(){
     caixaPerguntas.textContent = "Em 2049...";
     textoResultado.textContent = historiaFinal;
