@@ -30,11 +30,11 @@ const perguntas = [
     alternativas: [
       {
         texto: "Me preocupo com as pessoas que perderão seus empregos para máquinas e defendem a importância de proteger os trabalhadores.",
-        afirmacao: ["Me preocupo com as pessoas que perderão seus empregos para máquinas e defendem a importância de proteger os trabalhadores."], // Corrigido aqui
+        afirmacao: ["Me preocupo com as pessoas que perderão seus empregos para máquinas e defendem a importância de proteger os trabalhadores."],
       },
       {
         texto: "Defende a ideia de que a IA pode criar novas oportunidades de emprego e melhorar habilidades humanas.",
-        afirmacao: ["Defende a ideia de que a IA pode criar novas oportunidades de emprego e melhorar habilidades humanas."], // Corrigido aqui
+        afirmacao: ["Defende a ideia de que a IA pode criar novas oportunidades de emprego e melhorar habilidades humanas."],
       },
     ],
   },
@@ -43,11 +43,11 @@ const perguntas = [
     alternativas: [
       {
         texto: "Criar uma imagem utilizando uma plataforma de design como o Paint.",
-        afirmacao: ["Criar uma imagem utilizando uma plataforma de design como o Paint."], // Corrigido aqui
+        afirmacao: ["Criar uma imagem utilizando uma plataforma de design como o Paint."],
       },
       {
         texto: "Criar uma imagem utilizando um gerador de imagem de IA.",
-        afirmacao: ["Criar uma imagem utilizando um gerador de imagem de IA."], // Corrigido aqui
+        afirmacao: ["Criar uma imagem utilizando um gerador de imagem de IA."],
       },
     ],
   },
@@ -56,11 +56,11 @@ const perguntas = [
     alternativas: [
       {
         texto: "O chat pode ser uma tecnologia muito avançada, mas é preciso manter a atenção pois toda máquina erra, por isso revisar o trabalho e contribuir com as perspectivas pessoais é essencial.",
-        afirmacao: ["O chat pode ser uma tecnologia muito avançada, mas é preciso manter a atenção pois toda máquina erra, por isso revisar o trabalho e contribuir com as perspectivas pessoais é essencial."], // Corrigido aqui
+        afirmacao: ["O chat pode ser uma tecnologia muito avançada, mas é preciso manter a atenção pois toda máquina erra, por isso revisar o trabalho e contribuir com as perspectivas pessoais é essencial."],
       },
       {
         texto: "Escrever comandos para o chat é uma forma de contribuir com o trabalho, por isso não é um problema utilizar o texto inteiro.",
-        afirmacao: ["Escrever comandos para o chat é uma forma de contribuir com o trabalho, por isso não é um problema utilizar o texto inteiro."], // Corrigido aqui
+        afirmacao: ["Escrever comandos para o chat é uma forma de contribuir com o trabalho, por isso não é um problema utilizar o texto inteiro."],
       },
     ],
   },
@@ -70,6 +70,16 @@ let atual = 0;
 let perguntaAtual;
 let historiaFinal = "";
 
+// *** NOVA FUNÇÃO PARA GERAR AFIRMAÇÕES ALEATÓRIAS ***
+function geraAfirmacao(afirmacoes) {
+    // Math.random() gera um número entre 0 (inclusive) e 1 (exclusive)
+    // Multiplicamos pelo tamanho do array para ter um número entre 0 e o último índice
+    // Math.floor() arredonda para baixo, garantindo um índice inteiro
+    const indiceAleatorio = Math.floor(Math.random() * afirmacoes.length);
+    return afirmacoes[indiceAleatorio];
+}
+// ***************************************************
+
 function mostraPergunta() {
     if(atual >= perguntas.length){
         mostraResultado();
@@ -77,33 +87,32 @@ function mostraPergunta() {
     }
     perguntaAtual = perguntas[atual];
     caixaPerguntas.textContent = perguntaAtual.enunciado;
-    caixaAlternativas.textContent = "";
+    caixaAlternativas.textContent = ""; // Limpa as alternativas anteriores
     mostraAlternativas();
 }
 
 function mostraAlternativas(){
-    for(const alternativa of perguntaAtual.alternativas){
-        const botaoAlternativas = document.createElement("button");
-        botaoAlternativas.textContent = alternativa.texto;
-        botaoAlternativas.addEventListener("click", () => respostaSelecionada(alternativa));
-        caixaAlternativas.appendChild(botaoAlternativas);
+    for(const alternativa of perguntaAtual.alternativas) {
+        const botaoAlternativa = document.createElement("button");
+        botaoAlternativa.textContent = alternativa.texto;
+        botaoAlternativa.addEventListener("click", function () {
+            // Adiciona a afirmação aleatória à história final
+            historiaFinal += geraAfirmacao(alternativa.afirmacao) + " ";
+            
+            atual++; // Avança para a próxima pergunta
+            mostraPergunta(); // Mostra a próxima pergunta
+        });
+        caixaAlternativas.appendChild(botaoAlternativa);
     }
 }
 
-function respostaSelecionada(opcaoSelecionada) {
-    const afirmacoes = aleatorio(opcaoSelecionada.afirmacao);
-historiaFinal += afirmacoes + “ “;
-atual++;
-mostraPergunta();
-}
-function aleatorio(lista) {
-const posicao = Math.floor(Math.random()* lista.length);
-return lista[posicao];
-}
-function mostraResultado(){
-    caixaPerguntas.textContent = "Em 2049...";
+function mostraResultado() {
+    caixaPerguntas.textContent = "Em um futuro próximo...";
     textoResultado.textContent = historiaFinal;
-    caixaAlternativas.textContent = "";
+    caixaAlternativas.textContent = ""; // Limpa as alternativas
+    // Opcional: Esconder a caixa de alternativas se não for mais usada
+    // caixaAlternativas.style.display = 'none';
 }
 
+// Inicia o quiz
 mostraPergunta();
